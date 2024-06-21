@@ -73,18 +73,10 @@ def is_valid_url(url: str) -> bool:
 
 
 def sanitize_filename(title: str) -> str:
-    """
-    Sanitizes the title to create a valid filename by removing
-    punctuation and replacing spaces with underscores.
-
-    Args:
-        title (str): The title to sanitize.
-
-    Returns:
-        str: The sanitized filename.
-    """
-    title = re.sub(r'[^\w\s]', '', title)  # Remove all non-word characters (punctuation)
-    title = title.replace(' ', '_')        # Replace spaces with underscores
+    # Remove all non-word characters (punctuation)
+    title = re.sub(r'[^\w\s]', '', title)
+    # Replace spaces with underscores
+    title = title.replace(' ', '_')
     return title
 
 def get_chapter_content(soup: BeautifulSoup) -> BeautifulSoup:
@@ -246,5 +238,5 @@ if __name__ == '__main__':
     # I like clear delimiters in running logs
     logging.info('============ Starting Scrape============')
     # Set initial_url string on first run and on subsequent runs remove it and set first_chapter to False
-    main(max_chapters=1000, delay=3, first_chapter=False, initial_url=None)
+    main(max_chapters=1000, delay=3, first_chapter=True, initial_url=None)
     logging.info('============ Stopping Scrape============')
