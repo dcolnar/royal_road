@@ -115,7 +115,26 @@ def save_chapter(title: str, chapter: BeautifulSoup) -> None:
     # Constructing file name using the extracted chapter number and sanitized title
     file_name = f'{base_file_path}/{sanitized_title}.html'
 
-    html_content = f"<html><head><meta charset='utf-8'></head><body><h1>{title}</h1><hr />{chapter}</body></html>"
+    html_content = f"""
+    <html>
+    <head>
+        <meta charset='utf-8'>
+        <style>
+            body {{
+                font-family: "Open Sans", open-sans, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
+                font-size: 14px;
+                color: rgba(255, 255, 255, 0.8);
+                background: #131313;
+            }}
+        </style>
+    </head>
+    <body>
+        <h1>{title}</h1>
+        <hr />
+        {chapter}
+    </body>
+    </html>
+    """
     with open(file_name, 'w', encoding='utf-8') as file:
         file.write(html_content)
         logging.info(f'{title}: Chapter content has been written to file {file_name}.')
