@@ -91,7 +91,6 @@ def get_chapter_title(soup: BeautifulSoup) -> str:
     return title
 
 
-# TODO: Use title to create specific folders for each fiction
 def get_fiction_title(soup: BeautifulSoup) -> str:
     title_block = soup.find('div', class_='fic-header')
     title = title_block.find('h2').get_text()
@@ -101,8 +100,8 @@ def get_fiction_title(soup: BeautifulSoup) -> str:
 '''
 Need to swap out saving the cleaned html for a pdf. Maybe even make a separate function
 to combine multiple chapters into a book. The point is for offline reading and removing all the ad junk'''
-def save_chapter(title: str, chapter: BeautifulSoup) -> None:
-    base_file_path: str = 'files'
+def save_chapter(fiction_title: str, title: str, chapter: BeautifulSoup) -> None:
+    base_file_path: str = f'files/{fiction_title}'
     create_directory(base_file_path)
 
     # Extracting chapter number from the title
@@ -183,7 +182,8 @@ def get_recent_chapter(default_chapter: str = None) -> str:
     Retrieves the most recent chapter URL from a file or uses the default chapter URL if provided.
 
     Args:
-        default_chapter (str): The default chapter URL to use if no recent chapter is found. Default is None.
+        default_chapter (str): The default chapter URL to use if no recent chapter is found.
+        Default is None.
 
     Returns:
         str: The URL of the recent chapter or the default chapter if valid.
@@ -216,7 +216,8 @@ def main(max_chapters: int = 1000, delay: int = 3, first_chapter: bool = True, i
 
     This function retrieves and saves chapters from a web novel hosted on RoyalRoad, starting
     from the most recent chapter or the first chapter, depending on the `first_chapter` parameter.
-    It continues scraping until it reaches the specified `max_chapters` or there are no more chapters to retrieve.
+    It continues scraping until it reaches the specified `max_chapters` or there are no more chapters
+    to retrieve.
 
     Args:
         max_chapters (int): Maximum number of chapters to scrape. Default is 1000.
@@ -227,7 +228,6 @@ def main(max_chapters: int = 1000, delay: int = 3, first_chapter: bool = True, i
     Returns:
         None
     """
-    # TODO: This should probably be pulled from the url but im lazy.
     base_url = 'https://www.royalroad.com'
     current_url = get_recent_chapter(initial_url)
     # Delay in seconds between requests
@@ -238,9 +238,10 @@ def main(max_chapters: int = 1000, delay: int = 3, first_chapter: bool = True, i
 
     while current_url and pages_tried < pages_to_try:
         soup = get_page(current_url)
+        fiction_title = sanitize_filename(get_fiction_title(soup))
         chapter = get_chapter_content(soup)
         chapter_title = get_chapter_title(soup)
-        save_chapter(chapter_title, chapter)
+        save_chapter(fiction_title, chapter_title, chapter)
         next_chapter_url = get_next_chapter_link(soup, base_url, first_chapter)
         if next_chapter_url is None:
             save_recent_chapter(current_url)
@@ -256,6 +257,7 @@ def main(max_chapters: int = 1000, delay: int = 3, first_chapter: bool = True, i
 if __name__ == '__main__':
     # I like clear delimiters in running logs
     logging.info('============ Starting Scrape============')
-    # Set initial_url string on first run and on subsequent runs remove it and set first_chapter to False
-    main(max_chapters=1000, delay=3, first_chapter=True, initial_url=None)
+    # Set initial_url string on first run and on subsequent
+    # runs remove it and set first_chapter to False
+    main(max_chapters=1000, delay=3, first_chapter=False, initial_url=None)
     logging.info('============ Stopping Scrape============')

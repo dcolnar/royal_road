@@ -100,14 +100,11 @@ being blocked by the website. Adjust the delay parameter as needed.
 - Added url validation and have not tested it..... :shrug:
 
 ## TODO
-- Get Title from page and use it to 
-store in specific directory for that fiction.
-Maybe create object for fiction title, chapter title, and 
-link in the beginning to reduce calls/keep state?
+- Look into making an object for the fiction to keep state and reduce calls?
 - Fix issue with getting Next button using the length
 - Add create/check for files and log directories 
 if those are missing this breaks. The log one breaks when setting
 the logging_config which is super annoying.
 - Replace html save with pdf save, will be cleaner on offline reading
-- Add function or another script to merge files into one (maybe based on a book from author notes?)
-- Add font styling. My eyes are bleeding on phone... Style extension on brave ftw.
+- Add function or another script to merge files into one (maybe based on a book 
+from author notes?)
