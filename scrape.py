@@ -55,6 +55,7 @@ def create_directory(directory: str) -> None:
     except OSError as e:
         logging.error(f"Failed to create directory '{directory}': {e}")
 
+
 def get_page(url: str) -> BeautifulSoup:
     page = requests.get(url)
     soup = BeautifulSoup(page.content, 'html.parser')
@@ -79,6 +80,7 @@ def sanitize_filename(title: str) -> str:
     title = title.replace(' ', '_')
     return title
 
+
 def get_chapter_content(soup: BeautifulSoup) -> BeautifulSoup:
     initial_chapter_content = soup.find('div', class_='chapter-content')
     chapter_content = remove_classes(initial_chapter_content)
@@ -96,24 +98,22 @@ def get_fiction_title(soup: BeautifulSoup) -> str:
     title = title_block.find('h2').get_text()
     return title
 
+
 # TODO:
 '''
 Need to swap out saving the cleaned html for a pdf. Maybe even make a separate function
 to combine multiple chapters into a book. The point is for offline reading and removing all the ad junk'''
+
+
 def save_chapter(fiction_title: str, title: str, chapter: BeautifulSoup) -> None:
     base_file_path: str = f'files/{fiction_title}'
     create_directory(base_file_path)
 
-    # Extracting chapter number from the title
-    match = re.search(r'Chapter (\d+):', title)
-    chapter_number = match.group(1) if match else '1'
-
-    # Sanitize the title to create a valid filename
+    # Sanitize the title to create a valid filename with title/chapter number
     sanitized_title = sanitize_filename(title)
 
     # Constructing file name using the extracted chapter number and sanitized title
     file_name = f'{base_file_path}/{sanitized_title}.html'
-
     html_content = f"""
     <html>
     <head>
@@ -155,7 +155,7 @@ def get_next_chapter_link(soup: BeautifulSoup, base_url: str, first_chapter: boo
     logging.debug(f'{base_url}: Link Elements - {link_list}')
 
     # If this is first run, there should be only next chapter button
-    if first_chapter == True:
+    if first_chapter:
         link = base_url + link_list[0].get('href')
         logging.debug(f'Next chapter: {link}')
         return link
