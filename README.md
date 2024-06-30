@@ -1,110 +1,150 @@
-# RoyalRoad Chapter Scraper
+# RoyalRoad Novel Scraper
 
-This is a web scraping script that scrapes chapters from a specified web novel on 
-Royal Road and saves them as HTML files. It includes functionality for logging, 
-and subsequent running from the last saved chapter since most on-going content
-releases on a schedule.
+This Python project is designed to scrape chapters from a web novel hosted on RoyalRoad.
 
-## Dependencies
+## Project Structure
 
-The script requires the following Python libraries:
-
-- `os`
-- `re`
-- `time`
-- `typing`
-- `logging`
-- `sys`
-- `datetime`
-- `requests`
-- `bs4` (BeautifulSoup)
-- `urllib.parse`
-
-These dependencies can be installed using `pip`:
-
-```sh
-pip install requests beautifulsoup4
+```
+/files
+│   ├── html
+│   └── pdf
+/logs
+│   ├── recent_chapter.txt
+/pdf_utils
+│   ├── merge_pdfs.py
+│   ├── pdf_conversion.py
+│   └── preview_merge.py
+/scraping
+│   ├── html_processing.py
+│   └── scraper.py
+/utils
+│   └── utils.py
+config.py
+main.py
+readme.md
+requirements.txt
 ```
 
-## Script Description
-The script performs the following steps:
+## Installation
 
-1. **Logging Configuration:** Sets up logging to log 
-messages to both a file (logs/logs.log) and the console.
-2. **Directory Creation:** Ensures necessary directories (logs and chapters) 
-exist.
-3. **Web Scraping Functions:** Fetches and processes HTML content from 
-the given URLs.
-4. **Chapter Processing:** Extracts chapter content and title, 
-and saves them as HTML files.
-5. **Navigation Handling:** Determines the URL of the next chapter 
-to continue scraping.
-6. **Resuming from Last Chapter:** Reads the last saved chapter URL to 
-resume scraping from where it left off.
+1. Clone the repository:
+
+```shell
+   git clone <repo_name_here>
+   cd royal_road
+```
+2. Install requirements: (Need to make)
+
+```shell
+   pip install -r requirements.txt
+```
+
+## Configuration
+Modify `config.py` to customize the scraping behavior:
+
+- BASE_URL: RoyalRoads base URL.
+- HTML_OUTPUT_DIR: Directory to save HTML files.
+- PDF_OUTPUT_DIR: Directory to save PDF files.
+- LOGGING_CONFIG: Logging configuration settings.
+- MAX_CHAPTERS: Maximum number of chapters to scrape.
+- DELAY_BETWEEN_REQUESTS: Delay in seconds between HTTP requests.
 
 ## Usage
-### Running the Script
+### Running the Scraper
 To run the script, execute the following command:
 
 ```sh
-python scraper.py
+python main.py
 ```
-### Initial Chapter Setup
-By default, the script attempts to resume from the last saved chapter. 
-If no saved chapter is found, it trys to use provided string, if you don't
-provide a string it will error out.
-You can specify a default initial chapter URL to start from:
-
-1. Create a file named `recent_chapter.txt` in the `logs` directory.
-2. Write the initial chapter URL into `recent_chapter.txt`.
-
-Alternatively, in the main function call give it a url string:
-```
-main(max_chapters=1000, delay=3, first_chapter=True, initial_url='url_goes_here')
-```
-## Configuration
-### Logging Configuration
-The logging configuration is defined in the `logging_config` dictionary. 
-Modify this dictionary to change logging behavior (e.g., log file path, 
-logging levels, formatting).
-
 ### Main Function Parameters
-1. **max_chapters** (default: 1000): The maximum number of chapters to scrape.
-2. **first_chapter** (default: True): If you're on the first chapter for the fiction.
-Other runs or runs not starting from the first chapter set this to false.
-3. **delay** (default: 3 seconds): Delay between requests to avoid
-overloading the server.
-4. **initial_url** (default: None): This is the provided url for the start of the fiction.
-if you do not provide it, make sure to have the value set in the `recent_chapter.txt` file.
+1. **max_chapters**: Maximum number of chapters to scrape (default: 1000).
+2. **delay**: Delay in seconds between requests (default: 3).
+3. **first_chapter**: Start from the first chapter (default: True).
+4. **initial_url**: URL of the initial chapter to start scraping from (optional).
 
-These parameters can be changed by modifying the main function call 
-in the **if __name__ == '__main__'** block.
 
-### Example: Running with Initial Chapter from File
-1. Ensure the `logs/recent_chapter.txt` file contains the URL of the 
-initial chapter.
-2. Run the script as normal:
-```sh
-python scraper.py
+## Code Files
+### main.py
+Entry point of the scraping process. Configures logging and initiates scraping.
+
+### config.py
+Configuration settings including URLs, directories, logging, and scraping parameters.
+
+### scraper.py
+Contains functions and logic for scraping chapters from RoyalRoad:
+
+- get_page(url): Retrieves and parses HTML content from a URL.
+- get_next_chapter_link(soup, base_url, first_chapter): Finds and returns the URL of the next chapter.
+- save_recent_chapter(url): Saves the URL of the most recent chapter to a text file.
+- get_recent_chapter(default_chapter): Retrieves the URL of the most recent chapter from a file or uses a default URL.
+- main(max_chapters, delay, first_chapter, initial_url): Main function for scraping chapters.
+### utils.py
+Utility functions for file operations, URL validation, and filename sanitization.
+
+### html_processing.py
+Functions for processing HTML content from RoyalRoad:
+
+- get_chapter_title(soup): Extracts the title of a chapter from HTML soup.
+- get_fiction_title(soup): Extracts the title of the fiction from HTML soup.
+- get_chapter_content(soup): Extracts and processes the content of a chapter from HTML soup.
+- remove_classes(soup): Removes CSS classes from HTML soup elements.
+- save_chapter_html(fiction_title, title, chapter): Saves chapter content as an HTML file.
+
+### pdf_conversion.py
+Script for converting HTML files to PDF. Run this after you have downloaded chapters. 
+Leaving as separate script for now, in the future may have 
+this autorun or look for a direct way to do this when scraping. 
+You can turn on/off file deletion.
+
+```shell
+    python pdf_conversion.py
 ```
+Functions:
 
+- create_directory(dir_path): Creates a directory if it doesn't exist.
+- get_html_files(dir_path): Recursively finds all HTML files in a directory and its subdirectories.
+- convert_to_pdf(html_file, pdf_file): Converts an HTML file to PDF using pdfkit.
+- delete_html_file(html_file): Deletes an HTML file after successful conversion to PDF.
+- main(delete_html): Main function to convert HTML files to PDF and optionally delete HTML files.
+
+### merge_pdfs.py
+Script to merge all the pdfs into a single pdf, good for long-running 
+books to add extra chapters as the come in, or you can 
+use when you get a complete list of chapters for a book before 
+it gets removed from RoyalRoad. I recommend commenting out the 
+delete if you're unsure, might make this a flag later.
+
+Functions for merging PDF files:
+
+- merge_pdfs(directory_path, output_path): Merges all PDF files in the 
+specified directory into a single PDF file.
+- delete_source_files(directory_path, exclude_file): Deletes all PDF files in the
+directory except for the specified exclude_file.
+
+### preview_merge.py
+Checks what files will be merged and in what order before running,
+This got me in trouble on subsequent runs. I renamed the outfile
+to prevent this from happening in the future, but it 
+never hurts to be sure. May add this into the merge script and 
+do user input whether to proceed or something later.
 
 ## Notes
-- The script assumes the web novel follows a standard structure for chapter 
+- The script assumes the web novel follows a RoyalRoad's standard structure for chapter 
 navigation and content extraction.
-- Adjust the selectors in `get_chapter`, 
-`get_chapter_title`, and `get_next_chapter_link` functions 
-if the structure of the website changes.
-- The script includes a delay between requests to avoid 
-being blocked by the website. Adjust the delay parameter as needed.
+- The script includes a delay between requests to avoid,
+being blocked by the website. Adjust the delay parameter as needed, but 3 seconds feels pretty un-spammy
 - Added url validation and have not tested it..... :shrug:
+- the first_chapter flag should be changed after the first run to avoid weird behavior
 
 ## TODO
 - Look into making an object for the fiction to keep state and reduce calls?
-- Fix issue with getting Next button using the length
+- Fix issue with getting Next button using the length,
+this will allow me to get rid of that first_chapter flag.
 - Add create/check for files and log directories 
 if those are missing this breaks. The log one breaks when setting
 the logging_config which is super annoying.
-- Replace html save with pdf save, will be cleaner on offline reading
-- Add function or another script to merge files into one (maybe based on a book 
-from author notes?)
+- Add requirements file
+
+
+## Contributing
+Feel free to contribute by submitting issues and pull requests.
