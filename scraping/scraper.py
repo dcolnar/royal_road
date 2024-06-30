@@ -1,16 +1,30 @@
+# Standard library imports
+import logging.config
 import sys
+import time
+from datetime import datetime
+from typing import Optional
+
+# Third-party imports
 import requests
 from bs4 import BeautifulSoup
-import logging
-import time
-from typing import Optional
-from datetime import datetime
 
-from scraping.html_processing import get_chapter_content, get_chapter_title, save_chapter_html, \
-    get_fiction_title
+# Local application imports
+from config import Config, LOGGING_CONFIG
+from scraping.html_processing import (
+    get_chapter_content,
+    get_chapter_title,
+    save_chapter_html,
+    get_fiction_title,
+)
 from utils.utils import create_directory, sanitize_filename, is_valid_url
-from config import BASE_URL, CHAPTER_LOG_FILE
 
+
+# If you want to use a different log file for this file, sometimes that is nice.
+# LOGGING_CONFIG['handlers']['file']['filename'] = 'logs/scrape.log'
+
+# Configure logging using the dictionary
+logging.config.dictConfig(LOGGING_CONFIG)
 
 
 def get_page(url: str) -> BeautifulSoup:
@@ -51,7 +65,7 @@ def get_next_chapter_link(soup: BeautifulSoup, base_url: str, first_chapter: boo
 
 def save_recent_chapter(url: str):
     create_directory('logs')
-    file_name = CHAPTER_LOG_FILE
+    file_name = Config.CHAPTER_LOG_FILE
     with open(file_name, 'w', encoding='utf-8') as file:
         file.write(url)
     logging.debug(f'Saved recent chapter at {datetime.now()} to {file_name}')
@@ -68,7 +82,7 @@ def get_recent_chapter(default_chapter: str = None) -> str:
     Returns:
         str: The URL of the recent chapter or the default chapter if valid.
     """
-    file_name = CHAPTER_LOG_FILE
+    file_name = Config.CHAPTER_LOG_FILE
 
     try:
         with open(file_name, 'r', encoding='utf-8') as file:
@@ -108,7 +122,7 @@ def main(max_chapters: int = 1000, delay: int = 3, first_chapter: bool = True, i
     Returns:
         None
     """
-    base_url = BASE_URL
+    base_url = Config.BASE_URL
     current_url = get_recent_chapter(initial_url)
     delay_between_requests = delay
     pages_to_try = max_chapters

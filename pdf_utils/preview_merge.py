@@ -1,6 +1,10 @@
-import os
+# Standard library imports
 import logging.config
-from config import PDF_OUTPUT_DIR, LOGGING_CONFIG
+import os
+
+# Local application imports
+from config import Config, LOGGING_CONFIG
+
 
 # If you want to use a different log file for this file, sometimes that is nice.
 # LOGGING_CONFIG['handlers']['file']['filename'] = 'logs/preview_merge.log'
@@ -22,5 +26,5 @@ def preview_merge_order(dir_path: str):
     logging.info('***************End Test Merge***************')
 
 
-directory_path = os.path.join(PDF_OUTPUT_DIR, 'He_Who_Fights_With_Monsters')
+directory_path = os.path.join(Config.PDF_OUTPUT_DIR, 'He_Who_Fights_With_Monsters')
 preview_merge_order(directory_path)

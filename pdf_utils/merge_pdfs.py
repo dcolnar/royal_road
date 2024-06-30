@@ -1,8 +1,14 @@
+# Standard library imports
 import os
-import PyPDF2
 import logging.config
-from config import PDF_OUTPUT_DIR, LOGGING_CONFIG, MERGED_PDF_OUTPUT_DIR
+
+# Third-party imports
+import PyPDF2
+
+# Local application imports
+from config import Config, LOGGING_CONFIG
 from utils.utils import create_directory
+
 
 # If you want to use a different log file for this file, sometimes that is nice.
 # LOGGING_CONFIG['handlers']['file']['filename'] = 'logs/merge_pdfs.log'
@@ -45,8 +51,8 @@ def delete_source_files(directory_path, exclude_file):
 
 def main(delete_files: bool = False):
     # Adjust paths and filenames based on configuration
-    pdf_directory = PDF_OUTPUT_DIR
-    merge_directory = MERGED_PDF_OUTPUT_DIR
+    pdf_directory = Config.PDF_OUTPUT_DIR
+    merge_directory = Config.MERGED_PDF_OUTPUT_DIR
     fiction_directory = 'He_Who_Fights_With_Monsters'
     output_filename = 'BookNameHere.pdf'
     input_path = os.path.join(pdf_directory, fiction_directory)

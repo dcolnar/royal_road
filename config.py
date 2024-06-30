@@ -1,24 +1,26 @@
-import os
+# Standard library imports
+from pathlib import Path
 
-# URLs to scrape
-BASE_URL = 'https://www.royalroad.com'
+# Constants class to group related constants
+class Config:
+    BASE_URL = 'https://www.royalroad.com'
+    BASE_DIR = Path(__file__).resolve().parent
+    HTML_OUTPUT_DIR = BASE_DIR / 'files' / 'html'
+    PDF_OUTPUT_DIR = BASE_DIR / 'files' / 'pdf'
+    MERGED_PDF_OUTPUT_DIR = BASE_DIR / 'files' / 'merged_pdf'
+    DEFAULT_LOG_FILE = BASE_DIR / 'logs' / 'royal_road.log'
+    CHAPTER_LOG_FILE = BASE_DIR / 'logs' / 'recent_chapter.log'
+    MAX_CHAPTERS = 1000
+    DELAY_BETWEEN_REQUESTS = 3
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Directory to read HTML files
-HTML_OUTPUT_DIR = os.path.join(BASE_DIR, 'files', 'html')
-# Directory to save PDF files
-PDF_OUTPUT_DIR = os.path.join(BASE_DIR, 'files', 'pdf')
-# Directory to save Merged File
-MERGED_PDF_OUTPUT_DIR = os.path.join(BASE_DIR, 'files', 'merged_pdf')
-DEFAULT_LOG_FILE = os.path.join(BASE_DIR, 'logs', 'royal_road.log')
-CHAPTER_LOG_FILE = os.path.join(BASE_DIR, 'logs', 'recent_chapter.log')
-
-# TODO:
-# Deleted the whole logs folder and it borked, added this for those just-in-case situations.
-# Trying to import the util here causes circular import issue. Need to figure out python imports better
-# so that I can remove this redundant line.
-os.makedirs(os.path.join(BASE_DIR, 'logs'), exist_ok=True)
-os.makedirs(os.path.join(BASE_DIR, 'files'), exist_ok=True)
+# Create directories
+for directory in [
+    Config.HTML_OUTPUT_DIR.parent,
+    Config.PDF_OUTPUT_DIR,
+    Config.MERGED_PDF_OUTPUT_DIR,
+    Config.DEFAULT_LOG_FILE.parent
+]:
+    directory.mkdir(parents=True, exist_ok=True)
 
 # Logging configuration dictionary
 LOGGING_CONFIG = {
@@ -33,7 +35,7 @@ LOGGING_CONFIG = {
     'handlers': {
         'file': {
             'class': 'logging.FileHandler',
-            'filename': f'{DEFAULT_LOG_FILE}',
+            'filename': str(Config.DEFAULT_LOG_FILE),
             'level': 'DEBUG',
             'formatter': 'standard',
             'encoding': 'utf-8',
@@ -52,9 +54,3 @@ LOGGING_CONFIG = {
         },
     },
 }
-
-# Maximum number of chapters to scrape
-MAX_CHAPTERS = 1000
-
-# Delay in seconds between requests
-DELAY_BETWEEN_REQUESTS = 3

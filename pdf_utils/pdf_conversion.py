@@ -1,12 +1,18 @@
+# Standard library imports
 import os
-import pdfkit
 import logging.config
 from typing import List
-from config import HTML_OUTPUT_DIR, PDF_OUTPUT_DIR, LOGGING_CONFIG
+
+# Third-party imports
+import pdfkit
+
+# Local application imports
+from config import Config, LOGGING_CONFIG
 from utils.utils import create_directory
 
+
 # If you want to use a different log file for this file, sometimes that is nice.
-# LOGGING_CONFIG['handlers']['file']['filename'] = 'logs/pdf_conversion.log'
+# LOGGING_CONFIG['handlers']['file']['filesname'] = 'logs/pdf_conversion.log'
 
 # Configure logging using dictConfig with the updated LOGGING_CONFIG
 logging.config.dictConfig(LOGGING_CONFIG)
@@ -64,14 +70,14 @@ def main(delete_html: bool = False) -> None:
     Args:
     - delete_html (bool, optional): Whether to delete HTML files after pdf_utils. Default is True.
     """
-    create_directory(PDF_OUTPUT_DIR)
+    create_directory(Config.PDF_OUTPUT_DIR)
 
-    html_files = get_html_files(HTML_OUTPUT_DIR)
+    html_files = get_html_files(Config.HTML_OUTPUT_DIR)
 
     num_converted = 0
     for index, html_file in enumerate(html_files):
-        relative_path = os.path.relpath(html_file, HTML_OUTPUT_DIR)
-        pdf_file = os.path.join(PDF_OUTPUT_DIR, os.path.splitext(relative_path)[0] + '.pdf')
+        relative_path = os.path.relpath(html_file, Config.HTML_OUTPUT_DIR)
+        pdf_file = os.path.join(Config.PDF_OUTPUT_DIR, os.path.splitext(relative_path)[0] + '.pdf')
 
         convert_to_pdf(html_file, pdf_file)
         num_converted += 1

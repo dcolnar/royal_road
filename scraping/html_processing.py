@@ -1,8 +1,13 @@
+# Standard library imports
+import logging
+
+# Third-party imports
 from bs4 import BeautifulSoup
 
-from config import HTML_OUTPUT_DIR
+# Local application imports
+from config import Config
 from utils.utils import create_directory, sanitize_filename
-import logging
+
 
 
 def get_chapter_title(soup: BeautifulSoup) -> str:
@@ -30,7 +35,7 @@ def remove_classes(soup: BeautifulSoup) -> BeautifulSoup:
 
 
 def save_chapter_html(fiction_title: str, title: str, chapter: BeautifulSoup) -> None:
-    base_file_path: str = f'{HTML_OUTPUT_DIR}/{fiction_title}'
+    base_file_path: str = f'{Config.HTML_OUTPUT_DIR}/{fiction_title}'
     create_directory(base_file_path)
 
     # Sanitize the title to create a valid filename with title/chapter number
