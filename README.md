@@ -11,13 +11,16 @@ This Python project is designed to scrape chapters from a web novel hosted on Ro
 /logs
 │   ├── recent_chapter.txt
 /pdf_utils
+│   ├── __init__.py
 │   ├── merge_pdfs.py
 │   ├── pdf_conversion.py
 │   └── preview_merge.py
 /scraping
+│   ├── __init__.py
 │   ├── html_processing.py
 │   └── scraper.py
 /utils
+│   ├── __init__.py
 │   └── utils.py
 config.py
 main.py
@@ -140,11 +143,8 @@ being blocked by the website. Adjust the delay parameter as needed, but 3 second
 - Look into making an object for the fiction to keep state and reduce calls?
 - Fix issue with getting Next button using the length,
 this will allow me to get rid of that first_chapter flag.
-- Add create/check for files and log directories 
-if those are missing this breaks. The log one breaks when setting
-the logging_config which is super annoying.
 - Add requirements file
-
+- Add Delete Flags to Config file
 
 ## Contributing
 Feel free to contribute by submitting issues and pull requests.

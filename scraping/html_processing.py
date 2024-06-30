@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 
-from royal_road.config import HTML_OUTPUT_DIR
-from royal_road.utils.utils import create_directory, sanitize_filename
+from config import HTML_OUTPUT_DIR
+from utils.utils import create_directory, sanitize_filename
 import logging
 
 
@@ -43,7 +43,7 @@ def save_chapter_html(fiction_title: str, title: str, chapter: BeautifulSoup) ->
     <head>
         <meta charset='utf-8'>
         <style>
-            body {{
+            html {{
                 font-family: "Open Sans", open-sans, "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
                 font-size: 20px;
                 color: rgba(255, 255, 255, 0.8);

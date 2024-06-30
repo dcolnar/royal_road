@@ -1,11 +1,11 @@
 import os
 import PyPDF2
 import logging.config
-from royal_road.config import PDF_OUTPUT_DIR, LOGGING_CONFIG, MERGED_PDF_OUTPUT_DIR
-from royal_road.utils.utils import create_directory
+from config import PDF_OUTPUT_DIR, LOGGING_CONFIG, MERGED_PDF_OUTPUT_DIR
+from utils.utils import create_directory
 
-# If you want to use a different log  file
-# LOGGING_CONFIG['handlers']['file']['filename'] = '../logs/scrape.log'
+# If you want to use a different log file for this file, sometimes that is nice.
+# LOGGING_CONFIG['handlers']['file']['filename'] = 'logs/merge_pdfs.log'
 
 # Configure logging using the dictionary
 logging.config.dictConfig(LOGGING_CONFIG)
@@ -59,6 +59,7 @@ def main(delete_files: bool = False):
         merged_pdf_path = merge_pdfs(input_path, output_full_path)
         logging.info(f"***************Starting Merge***************")
         logging.info(f'PDFs merged successfully to: {merged_pdf_path}')
+        logging.info(f"***************Ending Merge***************")
 
         # Delete source PDF files excluding the output file
         if delete_files:

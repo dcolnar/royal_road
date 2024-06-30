@@ -86,3 +86,6 @@ fabric.properties
 !.idea/runConfigurations
 
 __pycache__/
+*.html
+*.pdf
+*.log

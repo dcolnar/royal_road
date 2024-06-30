@@ -1,9 +1,9 @@
 import os
 import logging.config
-from royal_road.config import PDF_OUTPUT_DIR, LOGGING_CONFIG
+from config import PDF_OUTPUT_DIR, LOGGING_CONFIG
 
-# If you want to use a different log  file
-# LOGGING_CONFIG['handlers']['file']['filename'] = '../logs/scrape.log'
+# If you want to use a different log file for this file, sometimes that is nice.
+# LOGGING_CONFIG['handlers']['file']['filename'] = 'logs/preview_merge.log'
 
 # Configure logging using the dictionary
 logging.config.dictConfig(LOGGING_CONFIG)

@@ -6,10 +6,11 @@ import time
 from typing import Optional
 from datetime import datetime
 
-from royal_road.scraping.html_processing import get_chapter_content, get_chapter_title, save_chapter_html, \
+from scraping.html_processing import get_chapter_content, get_chapter_title, save_chapter_html, \
     get_fiction_title
-from royal_road.utils.utils import create_directory, sanitize_filename, is_valid_url
-from royal_road.config import BASE_URL
+from utils.utils import create_directory, sanitize_filename, is_valid_url
+from config import BASE_URL, CHAPTER_LOG_FILE
+
 
 
 def get_page(url: str) -> BeautifulSoup:
@@ -50,7 +51,7 @@ def get_next_chapter_link(soup: BeautifulSoup, base_url: str, first_chapter: boo
 
 def save_recent_chapter(url: str):
     create_directory('logs')
-    file_name = 'logs/recent_chapter.txt'
+    file_name = CHAPTER_LOG_FILE
     with open(file_name, 'w', encoding='utf-8') as file:
         file.write(url)
     logging.debug(f'Saved recent chapter at {datetime.now()} to {file_name}')
@@ -67,7 +68,7 @@ def get_recent_chapter(default_chapter: str = None) -> str:
     Returns:
         str: The URL of the recent chapter or the default chapter if valid.
     """
-    file_name = 'logs/recent_chapter.txt'
+    file_name = CHAPTER_LOG_FILE
 
     try:
         with open(file_name, 'r', encoding='utf-8') as file:

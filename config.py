@@ -10,7 +10,15 @@ HTML_OUTPUT_DIR = os.path.join(BASE_DIR, 'files', 'html')
 PDF_OUTPUT_DIR = os.path.join(BASE_DIR, 'files', 'pdf')
 # Directory to save Merged File
 MERGED_PDF_OUTPUT_DIR = os.path.join(BASE_DIR, 'files', 'merged_pdf')
-BASE_LOG_FILE = os.path.join(BASE_DIR, 'logs', 'royal_road.log')
+DEFAULT_LOG_FILE = os.path.join(BASE_DIR, 'logs', 'royal_road.log')
+CHAPTER_LOG_FILE = os.path.join(BASE_DIR, 'logs', 'recent_chapter.log')
+
+# TODO:
+# Deleted the whole logs folder and it borked, added this for those just-in-case situations.
+# Trying to import the util here causes circular import issue. Need to figure out python imports better
+# so that I can remove this redundant line.
+os.makedirs(os.path.join(BASE_DIR, 'logs'), exist_ok=True)
+os.makedirs(os.path.join(BASE_DIR, 'files'), exist_ok=True)
 
 # Logging configuration dictionary
 LOGGING_CONFIG = {
@@ -25,7 +33,7 @@ LOGGING_CONFIG = {
     'handlers': {
         'file': {
             'class': 'logging.FileHandler',
-            'filename': f'{BASE_LOG_FILE}',
+            'filename': f'{DEFAULT_LOG_FILE}',
             'level': 'DEBUG',
             'formatter': 'standard',
             'encoding': 'utf-8',
@@ -50,5 +58,3 @@ MAX_CHAPTERS = 1000
 
 # Delay in seconds between requests
 DELAY_BETWEEN_REQUESTS = 3
-
-# Other constants or configuration parameters can be added as needed

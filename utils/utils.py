@@ -3,7 +3,7 @@ import logging
 import logging.config
 from urllib.parse import urlparse
 import re
-from royal_road.config import LOGGING_CONFIG
+from config import LOGGING_CONFIG
 
 # Update LOGGING_CONFIG with the specific log file path for this script
 #LOGGING_CONFIG['handlers']['file']['filename'] = '../logs/pdf_conversion.log'

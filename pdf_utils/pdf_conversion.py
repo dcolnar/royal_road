@@ -2,11 +2,11 @@ import os
 import pdfkit
 import logging.config
 from typing import List
-from royal_road.config import HTML_OUTPUT_DIR, PDF_OUTPUT_DIR, LOGGING_CONFIG
-from royal_road.utils.utils import create_directory
+from config import HTML_OUTPUT_DIR, PDF_OUTPUT_DIR, LOGGING_CONFIG
+from utils.utils import create_directory
 
-# Update LOGGING_CONFIG with the specific log file path for this script
-#LOGGING_CONFIG['handlers']['file']['filename'] = '../logs/pdf_conversion.log'
+# If you want to use a different log file for this file, sometimes that is nice.
+# LOGGING_CONFIG['handlers']['file']['filename'] = 'logs/pdf_conversion.log'
 
 # Configure logging using dictConfig with the updated LOGGING_CONFIG
 logging.config.dictConfig(LOGGING_CONFIG)
