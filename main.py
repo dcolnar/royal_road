@@ -3,8 +3,8 @@ import logging.config
 from royal_road.scraping.scraper import main as scraper_main
 from config import LOGGING_CONFIG, MAX_CHAPTERS, DELAY_BETWEEN_REQUESTS
 
-# If you want to use a different log  file
-# LOGGING_CONFIG['handlers']['file']['filename'] = 'logs/scrape.log'
+# If you want to use a different log file
+# LOGGING_CONFIG['handlers']['file']['filename'] = 'logs/main.log'
 
 # Configure logging using the dictionary
 logging.config.dictConfig(LOGGING_CONFIG)

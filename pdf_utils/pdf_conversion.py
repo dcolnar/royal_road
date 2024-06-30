@@ -3,24 +3,13 @@ import pdfkit
 import logging.config
 from typing import List
 from royal_road.config import HTML_OUTPUT_DIR, PDF_OUTPUT_DIR, LOGGING_CONFIG
+from royal_road.utils.utils import create_directory
 
 # Update LOGGING_CONFIG with the specific log file path for this script
-LOGGING_CONFIG['handlers']['file']['filename'] = '../logs/pdf_conversion.log'
+#LOGGING_CONFIG['handlers']['file']['filename'] = '../logs/pdf_conversion.log'
 
 # Configure logging using dictConfig with the updated LOGGING_CONFIG
 logging.config.dictConfig(LOGGING_CONFIG)
-
-
-def create_directory(dir_path: str) -> None:
-    """
-    Create a directory if it doesn't exist.
-
-    Args:
-    - dir_path (str): Directory path to create.
-    """
-    if not os.path.exists(dir_path):
-        os.makedirs(dir_path)
-        logging.info(f'Created directory: {dir_path}')
 
 
 def get_html_files(dir_path: str) -> List[str]:
@@ -68,7 +57,7 @@ def delete_html_file(html_file: str) -> None:
         logging.error(f'Error deleting {html_file}: {e}')
 
 
-def main(delete_html: bool = True) -> None:
+def main(delete_html: bool = False) -> None:
     """
     Main function to convert HTML files to PDF and optionally delete HTML files.
 

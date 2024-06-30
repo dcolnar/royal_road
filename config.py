@@ -4,9 +4,13 @@ import os
 BASE_URL = 'https://www.royalroad.com'
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-HTML_OUTPUT_DIR = os.path.join(BASE_DIR, 'files', 'html')  # Directory to read HTML files
-PDF_OUTPUT_DIR = os.path.join(BASE_DIR, 'files', 'pdf')    # Directory to save PDF files
-
+# Directory to read HTML files
+HTML_OUTPUT_DIR = os.path.join(BASE_DIR, 'files', 'html')
+# Directory to save PDF files
+PDF_OUTPUT_DIR = os.path.join(BASE_DIR, 'files', 'pdf')
+# Directory to save Merged File
+MERGED_PDF_OUTPUT_DIR = os.path.join(BASE_DIR, 'files', 'merged_pdf')
+BASE_LOG_FILE = os.path.join(BASE_DIR, 'logs', 'royal_road.log')
 
 # Logging configuration dictionary
 LOGGING_CONFIG = {
@@ -21,7 +25,7 @@ LOGGING_CONFIG = {
     'handlers': {
         'file': {
             'class': 'logging.FileHandler',
-            'filename': 'logs/log.log',
+            'filename': f'{BASE_LOG_FILE}',
             'level': 'DEBUG',
             'formatter': 'standard',
             'encoding': 'utf-8',
