@@ -12,6 +12,8 @@ class Config:
     CHAPTER_LOG_FILE = BASE_DIR / 'logs' / 'recent_chapter.log'
     MAX_CHAPTERS = 1000
     DELAY_BETWEEN_REQUESTS = 3
+    DELETE_AFTER_CONVERT = False
+    DELETE_AFTER_MERGE = False
 
 # Create directories
 for directory in [
