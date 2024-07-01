@@ -143,8 +143,7 @@ being blocked by the website. Adjust the delay parameter as needed, but 3 second
 - Look into making an object for the fiction to keep state and reduce calls?
 - Fix issue with getting Next button using the length,
 this will allow me to get rid of that first_chapter flag.
-- Add requirements file
-- Add Delete Flags to Config file
+- Use Delete Flags instead of parameters in pdf code
 
 ## Contributing
 Feel free to contribute by submitting issues and pull requests.
