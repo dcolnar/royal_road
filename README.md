@@ -14,13 +14,16 @@ This Python project is designed to scrape chapters from a web novel hosted on Ro
 │   ├── __init__.py
 │   ├── merge_pdfs.py
 │   ├── pdf_conversion.py
-│   └── preview_merge.py
+│   ├── preview_merge.py
+│   └── README.md
 /scraping
 │   ├── __init__.py
 │   ├── html_processing.py
+│   ├── README.md
 │   └── scraper.py
 /utils
 │   ├── __init__.py
+│   ├── README.md
 │   └── utils.py
 config.py
 main.py
@@ -133,17 +136,20 @@ do user input whether to proceed or something later.
 
 ## Notes
 - The script assumes the web novel follows a RoyalRoad's standard structure for chapter 
-navigation and content extraction.
+navigation and content extraction. It works as of July 2024.
 - The script includes a delay between requests to avoid,
 being blocked by the website. Adjust the delay parameter as needed, but 3 seconds feels pretty un-spammy
-- Added url validation and have not tested it..... :shrug:
 - the first_chapter flag should be changed after the first run to avoid weird behavior
+- Royal Road adds filler text when you scrape from their site. I have a script that allows me to pull 
+this out, but respecting their right to protect their content and understanding the spirit of it, 
+I am not going to add this to this repo. Please do not use this repo to try and profit off their work.
 
 ## TODO
 - Look into making an object for the fiction to keep state and reduce calls?
 - Fix issue with getting Next button using the length,
 this will allow me to get rid of that first_chapter flag.
-- Use Delete Flags instead of parameters in pdf code
+- Use Delete Flags in config instead of parameters in pdf code
+- Add markdown for each directory to help explain in more detail.
 
 ## Contributing
 Feel free to contribute by submitting issues and pull requests.

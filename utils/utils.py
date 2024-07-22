@@ -6,7 +6,7 @@ import re
 from config import LOGGING_CONFIG
 
 # Update LOGGING_CONFIG with the specific log file path for this script
-#LOGGING_CONFIG['handlers']['file']['filename'] = '../logs/pdf_conversion.log'
+# LOGGING_CONFIG['handlers']['file']['filename'] = '../logs/pdf_conversion.log'
 
 # Configure logging using dictConfig with the updated LOGGING_CONFIG
 logging.config.dictConfig(LOGGING_CONFIG)

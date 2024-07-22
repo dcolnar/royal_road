@@ -9,7 +9,6 @@ from config import Config
 from utils.utils import create_directory, sanitize_filename
 
 
-
 def get_chapter_title(soup: BeautifulSoup) -> str:
     title_block = soup.find('div', class_='fic-header')
     title = title_block.find('h1').get_text()
