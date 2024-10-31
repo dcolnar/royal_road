@@ -17,7 +17,7 @@ from utils.utils import create_directory
 logging.config.dictConfig(LOGGING_CONFIG)
 
 
-def merge_pdfs(directory_path, output_path):
+def merge_pdfs(directory_path, output_path) -> str:
     merger = PyPDF2.PdfMerger()
 
     # Get all PDF files in the directory and sort them
@@ -37,7 +37,7 @@ def merge_pdfs(directory_path, output_path):
     return output_path
 
 
-def delete_source_files(directory_path, exclude_file):
+def delete_source_files(directory_path, exclude_file) -> None:
     # Get all PDF files in the directory
     pdf_files = [f for f in os.listdir(directory_path) if f.endswith('.pdf')]
 
@@ -49,7 +49,7 @@ def delete_source_files(directory_path, exclude_file):
             logging.info(f"Deleted file: {filename}")
 
 
-def main(delete_files: bool = False):
+def main(delete_files: bool = False) -> None:
     # Adjust paths and filenames based on configuration
     pdf_directory = Config.PDF_OUTPUT_DIR
     merge_directory = Config.MERGED_PDF_OUTPUT_DIR

@@ -63,7 +63,7 @@ def get_next_chapter_link(soup: BeautifulSoup, base_url: str, first_chapter: boo
     return None
 
 
-def save_recent_chapter(url: str):
+def save_recent_chapter(url: str) -> None:
     create_directory('logs')
     file_name = Config.CHAPTER_LOG_FILE
     with open(file_name, 'w', encoding='utf-8') as file:

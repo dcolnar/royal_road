@@ -13,7 +13,7 @@ from config import Config, LOGGING_CONFIG
 logging.config.dictConfig(LOGGING_CONFIG)
 
 
-def preview_merge_order(dir_path: str):
+def preview_merge_order(dir_path: str) -> None:
     # Get all PDF files in the directory and sort them if needed
     pdf_files = [f for f in os.listdir(dir_path) if f.endswith('.pdf')]
     pdf_files.sort()  # Sort files alphabetically or numerically based on filenames
